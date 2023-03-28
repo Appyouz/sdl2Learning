@@ -1,4 +1,3 @@
-#include <SDL2/SDL_video.h>
 #include <iostream>
 
 #include <SDL2/SDL.h>
@@ -9,8 +8,6 @@ int main(int argc, char* argv[])
   // Create a window data type
   SDL_Window * window {nullptr};
 
-  // grab the  window  surface
-  SDL_Surface* screen;
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cout << "SDL could not be initialized: " << SDL_GetError() << '\n'; 
@@ -26,13 +23,21 @@ int main(int argc, char* argv[])
       480,
       SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 
-     screen = SDL_GetWindowSurface(window);
+  SDL_Renderer* renderer {nullptr} ;
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
+    // create a rectangle
+  SDL_Rect rectangle;
+  rectangle.x  = 50;
+  rectangle.y  = 100;
+  rectangle.w  = 20;
+  rectangle.h  = 20;
 
 
   // game loop event
    bool gameIsRunning {true};
 
+  // main application loop
   while (gameIsRunning)
   {
     SDL_Event event;
@@ -40,23 +45,34 @@ int main(int argc, char* argv[])
     //start event loop
     while (SDL_PollEvent(&event))
     {
+      // 1. Handle event input
 
       const Uint8* state = SDL_GetKeyboardState(NULL);
-      //handle each specific event
       if (event.type == SDL_QUIT || state[SDL_SCANCODE_ESCAPE]) {
           gameIsRunning = false;
           std::cout << "Escaped key pressed\n";
       }
-
-      if (event.button.button == SDL_BUTTON_LEFT) {
-        SDL_LockSurface(screen);
-        std::cout << "Left mouse button was pressed\n";
-        // dest, color(int), height times (*) pitch of the surface(screen) whole buffer
-        SDL_memset(screen -> pixels, 255, screen -> h * screen -> pitch);
-        SDL_UnlockSurface(screen);
-        SDL_UpdateWindowSurface(window);
-     }
     }
+     // 2. Handle updates
+
+     // 3. Clear and draw the screen
+    // rendering color here gives black background 
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderClear(renderer);
+
+    // Do drawing here
+    // draws white line nice
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawLine(renderer, 5, 5, 100, 120);
+
+    // draw rectangle
+
+
+    SDL_RenderDrawRect(renderer, &rectangle);
+
+
+    // Finally show what we have drawn
+    SDL_RenderPresent(renderer);
 
 
     

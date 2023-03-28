@@ -1,5 +1,5 @@
 make:
-	g++ -std=c++17 main.cpp  -I./glad/include -o main -lSDL2 
+	g++ -std=c++17 main.cpp  -o main -lSDL2 
 
 
 clean:
