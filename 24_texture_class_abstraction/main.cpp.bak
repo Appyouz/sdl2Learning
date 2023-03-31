@@ -1,0 +1,92 @@
+#include <iostream>
+#include <string>
+#include <SDL2/SDL.h>
+
+class TextureRectangle{
+private:
+		SDL_Rect m_rectangle;
+	SDL_Texture* m_texture;
+public:
+	// constructor
+	TextureRectangle(SDL_Renderer*& renderer, std::string filePath){
+		SDL_Surface* surface = SDL_LoadBMP(filePath.c_str());
+		m_texture = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		
+	}
+	~TextureRectangle(){
+		SDL_DestroyTexture(m_texture);
+	}
+
+	void setRectangleProperties(int x, int y, int w, int h){
+		m_rectangle.x = x;
+		m_rectangle.y = y;
+		m_rectangle.w = w;
+		m_rectangle.h = h;
+	}
+
+	void update(){
+
+	}
+
+	void render(SDL_Renderer*& renderer){
+	SDL_RenderCopy(renderer, m_texture, NULL, &m_rectangle);
+	}
+
+};
+int main (int argc, char *argv[])
+{
+	SDL_Window* window {nullptr};
+
+  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    std::cout << "SDL could not be initialized: " << SDL_GetError() << '\n'; 
+  }else {
+    std::cout << "SDL video system is ready to go." << '\n';
+  }
+
+  window = SDL_CreateWindow(
+      "first window", 
+      20, 
+      20,
+      640,
+      480,
+      SDL_WINDOW_SHOWN);
+
+		SDL_Renderer* renderer {nullptr};
+		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+		
+		TextureRectangle rect {renderer, "./images/3D-Window_BBB_Blender_2.bmp"};
+
+  bool gameIsRunning {true};
+
+  while (gameIsRunning)
+  {
+    SDL_Event event;
+    
+    while (SDL_PollEvent(&event))
+    {
+        const Uint8* state = SDL_GetKeyboardState(NULL);
+        if (event.type == SDL_QUIT || state[SDL_SCANCODE_ESCAPE]) {
+            gameIsRunning = false;
+            std::cout << "Escaped key pressed\n";
+        }
+    }
+
+      SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+      SDL_RenderClear(renderer);
+
+      SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+			rect.setRectangleProperties(20, 30, 200, 200);
+			rect.render(renderer);
+      SDL_RenderPresent(renderer);
+  }
+
+
+  SDL_DestroyWindow(window);
+
+  SDL_Quit();
+
+
+	return 0;
+}
