@@ -1,0 +1,4 @@
+* frame cap
+
+SDL_GetTicks :- get number of milliseconds since SDL Library initialization
+
