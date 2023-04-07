@@ -30,11 +30,11 @@ void TextureRectangle::setDimension(int w, int h) {
   m_rectangle.h = h;
 }
 
+int TextureRectangle::getPositionX(){return m_rectangle.x;}
+int TextureRectangle::getPositionY(){return m_rectangle.y;}
+int TextureRectangle::getWidth(){return m_rectangle.w;}
+int TextureRectangle::getHeight(){return m_rectangle.h;}
 
-SDL_bool TextureRectangle::isColliding(TextureRectangle &obj) {
-  const SDL_Rect temp{obj.GetRectangle()};
-  return SDL_HasIntersection(&m_rectangle, &temp);
-}
 void TextureRectangle::update() {}
 
 void TextureRectangle::render(SDL_Renderer *renderer) {

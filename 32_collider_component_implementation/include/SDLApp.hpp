@@ -21,6 +21,7 @@ private:
 
   // store our call back function
   std::function<void(void)> m_eventCallBack;
+  std::function<void(void)> m_updateCallBack;
   std::function<void(void)> m_renderCallBack;
 
 public:
@@ -29,6 +30,8 @@ public:
   ~SDLApp();
 
   void SetEventCallBack(std::function<void(void)> func);
+  
+  void SetUpdateCallBack(std::function<void(void)> func);
 
   void SetRenderCallBack(std::function<void(void)> func);
   void RunLoop();

@@ -31,6 +31,10 @@ void SDLApp::SetEventCallBack(std::function<void(void)> func) {
   m_eventCallBack = func;
 }
 
+void SDLApp::SetUpdateCallBack(std::function<void ()> func){
+  m_updateCallBack = func;
+}
+
 void SDLApp::SetRenderCallBack(std::function<void(void)> func) {
   m_renderCallBack = func;
 }
@@ -40,15 +44,17 @@ void SDLApp::RunLoop() {
     Uint32 startTime {SDL_GetTicks()};
 
     Uint32 buttons{SDL_GetMouseState(&m_mouseX, &m_mouseY)};
-    // handle event first
+    //1. handle event first
     m_eventCallBack();
 
+    // 2. handle updates
+    m_updateCallBack();
     SDL_SetRenderDrawColor(GetRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(GetRenderer());
 
     SDL_SetRenderDrawColor(GetRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
 
-    // then handle rendering
+    //3. then handle rendering
     m_renderCallBack();
 
     SDL_RenderPresent(GetRenderer());

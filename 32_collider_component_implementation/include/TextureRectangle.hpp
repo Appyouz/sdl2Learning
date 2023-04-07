@@ -15,9 +15,12 @@ public:
 
 	void setPosition(int x, int y);
 	void setDimension(int w, int h);
+  int getPositionX();
+  int getPositionY();
+  int getWidth();
+  int getHeight();
 
   // detect collision
-  SDL_bool isColliding(TextureRectangle& obj);
 	void update();
 	void render(SDL_Renderer* renderer);
 

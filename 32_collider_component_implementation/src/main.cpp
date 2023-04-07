@@ -26,12 +26,17 @@ void handleEvents() {
     }
     //
     if (event.button.button == SDL_BUTTON_LEFT) {
-      if (object2->getTextureRectangle().isColliding(object1->getTextureRectangle()))
+      if (object2->getCollider2d().isColliding(object1->getCollider2d()))
         std::cout << "Is Colliding.\n";
       else
         std::cout << "Is Not Colliding.\n";
     }
   }
+}
+
+void handleUpdate(){
+  object1->update();
+  object2->update();
 }
 void handleRendering() {
   // Draw positions and size
@@ -86,6 +91,7 @@ int main(int argc, char *argv[]) {
 
   // set callback()
   app->SetEventCallBack(handleEvents);
+  app->SetUpdateCallBack(handleUpdate);
   app->SetRenderCallBack(handleRendering);
   app->RunLoop();
   delete app;
