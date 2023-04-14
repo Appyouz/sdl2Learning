@@ -1,52 +1,49 @@
-#ifndef GAMEENTITY_HPP
-#define GAMEENTITY_HPP
+#ifndef GAME_ENTITY_HPP
+#define GAME_ENTITY_HPP
 
+#include "Collider2d.hpp"
+#include "TextureRectangle.hpp"
+#include <SDL2/SDL.h>
 #include <string>
 #include <vector>
 
-// Third Party
-#include <SDL2/SDL.h> // For Mac, use <SDL.h>
+class GameEntity {
+private:
+  TextureRectangle*  m_sprite;
+  std::vector<BoxCollider2d*> m_colliders;
 
-#include "TexturedRectangle.hpp"
-#include "Collider2D.hpp"
+  // Pointer to the renderer that object will render
+  // components to.
+  SDL_Renderer *m_renderer;
 
-class GameEntity{
-    public:
-        // Constructors
-        GameEntity();
-        GameEntity(SDL_Renderer* renderer);
-        // Destructors
-        ~GameEntity();
-        // Update (called every loop)
-        void Update();
-        // Render our Game Entity (In the render portion)
-        void Render();
-        // Adding Rectangle Components
-        void AddTexturedRectangleComponent(std::string spritepath);
-        // Adding a Rectangle component with transparency
-        void AddTexturedRectangleComponent(std::string spritepath, int redcolorkey, int greencolorkey, int bluecolorkey);
-        // Add another Box Collider to our object
-        void AddBoxCollider2D();
-        // Retrieve Components
-        TexturedRectangle& GetTexturedRectangle();
-        BoxCollider2D& GetBoxCollider2D(size_t index);
-        // Update
-        // Note: Sets the position of our game entity
-        //       This operates by moving all of the
-        //       Components position as well so they are
-        //       updated.   
-        void SetPosition(int x, int y); 
-        // Sets all of the components to a specified dimension
-        void SetDimensions(int w, int h); 
-
-    private:
-        // Components
-        TexturedRectangle* m_sprite; 
-        std::vector<BoxCollider2D*> m_colliders;
-        // Pointer to the renderer that object will render
-        // components to.
-        SDL_Renderer* m_renderer;
+public:
+  // Constructors
+  GameEntity();
+  GameEntity(SDL_Renderer *renderer);
+  // Destructors
+  ~GameEntity();
+  // Update (called every loop)
+  void update();
+  // Render our Game Entity (In the render portion)
+  void render();
+  // Adding Rectangle Components
+  void addTexturedRectangleComponent(std::string spritepath);
+  // Adding a Rectangle component with transparency
+  void addTexturedRectangleComponent(std::string spritepath, int redcolorkey,
+                                     int greencolorkey, int bluecolorkey);
+  // Add another Box Collider to our object
+  void addBoxCollider2d();
+  // Retrieve Components
+  TextureRectangle &getTexturedRectangle();
+  BoxCollider2d &getBoxCollider2d(size_t index);
+  // Update
+  // Note: Sets the position of our game entity
+  //       This operates by moving all of the
+  //       Components position as well so they are
+  //       updated.
+  void setPosition(int x, int y);
+  // Sets all of the components to a specified dimension
+  void setDimensions(int w, int h);
 };
 
-
-#endif
+#endif // !GAME_ENTITY_HPP

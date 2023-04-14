@@ -1,31 +1,23 @@
-#ifndef ANIMATED_SPRITE_HPP
-#define ANIMATED_SPRITE_HPP
-
+#ifndef ANIMATED_SPRITE_H
+#define ANIMATED_SPRITE_H
 #include <string>
-// Third Party
-#include <SDL2/SDL.h> // For Mac, use <SDL.h>
+#include <SDL2/SDL.h>
 
-class AnimatedSprite{
-    public:
-        // Constructor
-        AnimatedSprite(SDL_Renderer*& renderer, std::string filepath);
-        // Destructor
-        ~AnimatedSprite();
-        // 
-        void Draw(int x, int y, int w, int h);
+class AnimatedSprite 
+{
+	private:
+		SDL_Rect m_src;
+		SDL_Rect m_dest;
+		SDL_Texture* m_texture;
+	public:
+		AnimatedSprite(SDL_Renderer* renderer, std::string filepath);
+		~AnimatedSprite();
 
-        // Select and play a specific frame
-        void PlayFrame(int x, int y,int w, int h, int frame);
+		void Draw(int x, int y, int w, int h);
 
-        // Update every frame
-        void Update();
-        // Render
-        void Render(SDL_Renderer*& renderer);
-
-    private:
-        SDL_Rect m_src;         // Where we're selecting from
-        SDL_Rect m_dst;   // Where we are rendering
-        SDL_Texture* m_texture;
+		void PlayFrame(int x, int y, int w,int h, int frame);
+		void Update();
+		void Render(SDL_Renderer*& renderer);
 };
 
-#endif
+#endif // !ANIMATED_SPRITE_H

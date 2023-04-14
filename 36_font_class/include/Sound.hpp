@@ -1,10 +1,7 @@
 #ifndef SOUND_HPP
 #define SOUND_HPP
-
 #include <SDL2/SDL.h>
 #include <string>
-
-// interface for audio
 class ISound {
 public:
   // Virtual destructor for our interface
