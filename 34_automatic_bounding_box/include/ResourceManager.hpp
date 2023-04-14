@@ -1,25 +1,21 @@
-#ifndef RESOURCE_MANAGER_HPP
-#define RESOURCE_MANAGER_HPP
-
-#include <string>
-#include <unordered_map>
-
-// Third party library
+#ifndef RESOURCE_MANAGER_H
+#define RESOURCE_MANAGER_H
+#include <iostream>
 #include <SDL2/SDL.h>
+#include <unordered_map>
+class ResourceManager 
+{
+	private:
+		ResourceManager();
+		ResourceManager(ResourceManager const&);
+		ResourceManager operator=(ResourceManager const&);
 
-class ResourceManager{
-    private:
-        ResourceManager();
-        ResourceManager(ResourceManager const&);
-        ResourceManager operator=(ResourceManager const&);
+		std::unordered_map<std::string, SDL_Surface*> m_surfaces;
 
-        std::unordered_map<std::string, SDL_Surface*> m_surfaces;
+	public:
+		static ResourceManager& GetInstance();
 
-    public:
-        static ResourceManager& GetInstance();
-
-        SDL_Surface* GetSurface(std::string filepath);
+		SDL_Surface* GetSurface(std::string filepath);
 };
 
-
-#endif
+#endif // !RESOURCE_MANAGER_H

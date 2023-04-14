@@ -1,59 +1,55 @@
-#ifndef SDLAPP_HPP
-#define SDLAPP_HPP
-
+#ifndef SDL_APP_H
+#define SDL_APP_H
+#include <SDL2/SDL.h>
 #include <functional>
+#include <iostream>
 
-// Third Party
-#include <SDL2/SDL.h> // For Mac, use <SDL.h>
+class SDLApp {
+private:
+  SDL_Window *m_window{nullptr};
+  SDL_Renderer *m_renderer{nullptr};
+  bool m_gameIsRunning{true};
+  // variables to store mouse positions
+  int m_mouseX{};
+  int m_mouseY{};
 
-class SDLApp{
-    public:
-        // Constructor
-        SDLApp(const char* title,int x, int y, int w, int h);
-        // Destructor
-        ~SDLApp();
-        // Handle Events
-        void SetEventCallback(std::function<void(void)> func);
-        // Handle Updates
-        void SetUpdateCallback(std::function<void(void)> func);
-        // Handle Render
-        void SetRenderCallback(std::function<void(void)> func);
-        // Loop our application
-        void RunLoop();
-        // Set the maximum render rate of each frame
-        // This is a frame cap in terms of milliseconds that
-        // each iteration of our main loop will not exceed
-        void SetMaxFrameRate(int frameRate);
-        // Retrive the renderer
-        SDL_Renderer* GetRenderer() const;
-        // Return mouse positions
-        int GetMouseX();
-        int GetMouseY();
-        // Return the window dimensions
-        int GetWindowWidth();
-        int GetWindowHeight();
-        // Stop the main loop of our application
-        void StopAppLoop();
+  // set frame cap
+  int m_maxFrameRate{};
+  // store width and height of a window
+  int m_width{};
+  int m_height{};
 
-    private:
-            // Pointer to our SDL Window
-            SDL_Window* m_window=nullptr;
-            // Pointer to our SDL renderer
-            SDL_Renderer* m_renderer = nullptr;
-            // Set the maximum frame cap;
-            int m_maxFrameRate;
-            // Infinite loop for our application
-            bool m_gameIsRunning = true;
-            // Store mouse Coordinates by default
-            int m_mouseX;
-            int m_mouseY;
-            // Store width and height of window
-            int m_width;
-            int m_height;
-            // Store our callback functions
-            std::function<void(void)> m_EventCallback;
-            std::function<void(void)> m_UpdateCallback;
-            std::function<void(void)> m_RenderCallback;
+  // store our call back function
+  std::function<void(void)> m_eventCallBack;
+  std::function<void(void)> m_updateCallBack;
+  std::function<void(void)> m_renderCallBack;
+
+public:
+  SDLApp(const char *title, int x, int y, int w, int h);
+
+  ~SDLApp();
+
+  void SetEventCallBack(std::function<void(void)> func);
+  
+  void SetUpdateCallBack(std::function<void(void)> func);
+
+  void SetRenderCallBack(std::function<void(void)> func);
+  void RunLoop();
+
+  // set maximum render rate for each frame( frame cap)
+  void setMaxFrameRate(int frameRate);
+
+  SDL_Renderer *GetRenderer() const;
+
+  int GetMouseX();
+  int GetMouseY();
+
+
+  //return window dimension
+  int getWindowWidth();
+  int getWindowHeight();
+
+  void StopAppLoop();
 };
 
-#endif
+#endif // !SDL_APP_H
