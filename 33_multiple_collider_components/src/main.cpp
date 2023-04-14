@@ -8,6 +8,8 @@
 #include "../include/GameEntity.hpp"
 #include "../include/SDLApp.hpp"
 #include "../include/TextureRectangle.hpp"
+#include "../include/ResourceManager.hpp"
+#include "../include/Vector2d.hpp"
 
 SDLApp *app;
 
